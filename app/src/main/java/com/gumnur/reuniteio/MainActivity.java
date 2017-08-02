@@ -1,20 +1,29 @@
 package com.gumnur.reuniteio;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 public class MainActivity extends AppCompatActivity {
 
     private boolean fabExpanded = false;
     private FloatingActionButton fabSettings;
+    ImageView imageView;
+    private static final int PICK_IMAGE = 100;
+    Uri imageUri;
     private LinearLayout layoutFabSave;
     private LinearLayout layoutFabEdit;
+    private static final String TAG = "Log";
 
 
     @Override
@@ -24,10 +33,17 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        fabSettings = (FloatingActionButton) this.findViewById(R.id.fabSetting);
+
+        Log.i(TAG, "onCreate");
+
+        final FloatingActionButton btnCamera =(FloatingActionButton) findViewById(R.id.fabPhoto);
+        imageView =(ImageView)findViewById(R.id.imgView);
+         final FloatingActionButton btnGallery =(FloatingActionButton) findViewById(R.id.fabGallery);
 
         layoutFabSave = (LinearLayout) this.findViewById(R.id.layoutFabSave);
         layoutFabEdit = (LinearLayout) this.findViewById(R.id.layoutFabEdit);
+        fabSettings = (FloatingActionButton) this.findViewById(R.id.fabSetting);
+
         //layoutFabSettings = (LinearLayout) this.findViewById(R.id.layoutFabSettings);
 
         //When main Fab (Settings) is clicked, it expands if not expanded already.
@@ -43,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
 
         //Only main FAB is visible in the beginning
         closeSubMenusFab();
@@ -64,26 +81,41 @@ public class MainActivity extends AppCompatActivity {
         fabSettings.setImageResource(R.drawable.ic_clear_black_24dp);
         fabExpanded = true;
     }
+    //Camera Button
+        fabC.setOnClickListener(new View.OnClickListener(){
+        @Override
+        public void onClick(View view) {
+            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            startActivityForResult(intent,0);
+        }
+    });
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
+    //Gallery Button
+        btnGallery.setOnClickListener(new View.OnClickListener(){
+        @Override
+        public void onClick(View view) {
+            openGallery();
+
+        }
+    });
+
+
+}
+    private void openGallery(){
+        Intent Gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+        startActivityForResult(Gallery, PICK_IMAGE);
+
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == RESULT_OK && requestCode == PICK_IMAGE){
+            imageUri = data.getData();
+            imageView.setImageURI(imageUri);
         }
 
-        return super.onOptionsItemSelected(item);
     }
-}
+
+
+    }

@@ -37,6 +37,7 @@
             android:text="Found"
             android:textSize="20sp" />
     </LinearLayout>
+
     <ImageView
         android:id="@+id/imgView"
         android:layout_width="match_parent"
