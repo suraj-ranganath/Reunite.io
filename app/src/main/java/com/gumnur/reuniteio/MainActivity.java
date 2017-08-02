@@ -14,6 +14,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import static com.gumnur.reuniteio.R.id.fabGallery;
+import static com.gumnur.reuniteio.R.id.fabPhoto;
+
 public class MainActivity extends AppCompatActivity {
 
     private boolean fabExpanded = false;
@@ -36,9 +39,9 @@ public class MainActivity extends AppCompatActivity {
 
         Log.i(TAG, "onCreate");
 
-        final FloatingActionButton btnCamera =(FloatingActionButton) findViewById(R.id.fabPhoto);
+        final FloatingActionButton btnCamera =(FloatingActionButton) findViewById(fabPhoto);
         imageView =(ImageView)findViewById(R.id.imgView);
-         final FloatingActionButton btnGallery =(FloatingActionButton) findViewById(R.id.fabGallery);
+         final FloatingActionButton btnGallery =(FloatingActionButton) findViewById(fabGallery);
 
         layoutFabSave = (LinearLayout) this.findViewById(R.id.layoutFabSave);
         layoutFabEdit = (LinearLayout) this.findViewById(R.id.layoutFabEdit);
@@ -82,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
         fabExpanded = true;
     }
     //Camera Button
-        fabC.setOnClickListener(new View.OnClickListener(){
+        fabPhoto.setOnClickListener(new View.OnClickListener(){
         @Override
         public void onClick(View view) {
             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -91,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
     });
 
     //Gallery Button
-        btnGallery.setOnClickListener(new View.OnClickListener(){
+        fabGallery.setOnClickListener(new View.OnClickListener(){
         @Override
         public void onClick(View view) {
             openGallery();
