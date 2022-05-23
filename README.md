@@ -1,3 +1,3 @@
 # Reunite.io
 Let's Reunite!
-We have changed the world. Period.
+Reunite is a product of the NPSK hackathon. It is an early version of Relief Reunit, an app aimed at reuniting lost children with their parents using facial recognition
